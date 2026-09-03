@@ -16,7 +16,9 @@ This gets you a daily 8am email of tonight's sky, ranked by Claude.
 
 ## Step 1 — Make the skill available to Cowork
 
-The skill is `skills/sky-report/SKILL.md`. Point Cowork at it one of two ways:
+The skill is `skills/sky-report/SKILL.md`, symlinked at `.claude/skills/sky-report` so
+Cowork discovers it automatically when you open this folder. Otherwise, point Cowork at
+it one of two ways:
 
 - **Folder instructions**: open this project folder in Cowork and tell Claude to
   "use the sky-report skill in `skills/sky-report/`", or
