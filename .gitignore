@@ -19,3 +19,6 @@ __pycache__/
 
 # Generated briefing
 sky_report_latest.html
+
+# Cached geocoding result (may contain your resolved coordinates)
+.location_cache.json

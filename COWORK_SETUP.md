@@ -25,7 +25,10 @@ The skill is `skills/sky-report/SKILL.md`. Point Cowork at it one of two ways:
 
 ## Step 2 — Set up email delivery (pick one)
 
-**Option A — Gmail connector (OAuth, no secret on disk).**
+Choose how the briefing is sent with the `delivery` field in `config.json`:
+`"connector"` (default) or `"smtp"`.
+
+**Option A — Gmail connector (default; OAuth, no secret on disk).**
 In Cowork, open **Settings → Connectors**, search **Gmail**, click **Connect**, and
 authorize in Google's own sign-in flow. Entering credentials happens there — Claude
 never handles your password.

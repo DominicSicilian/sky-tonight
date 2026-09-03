@@ -49,3 +49,23 @@ id,name,type,ra_hours,dec_deg,magnitude,constellation,note
 
 `ra_hours` is right ascension in decimal hours (0–24), `dec_deg` declination in
 decimal degrees. Anything you add is picked up automatically on the next run.
+
+## Location resolution
+
+You only put `city` + `state` (+ optional `zip`) in `config.json`. On first run,
+`src/sky_tonight/location.py`:
+
+1. Geocodes the city via the **Open-Meteo geocoding API** → latitude, longitude,
+   elevation, IANA timezone, and the place's population. If a `zip` is given, the
+   coordinates are refined via **Zippopotam** to your neighborhood.
+2. **Estimates limiting magnitude** from the population as a coarse light-pollution
+   proxy (big city → ~4.0/Bortle 8–9; rural → ~6.3). This is an estimate, not a
+   measurement — set `limiting_magnitude` in `config.json` to override it with a real
+   Bortle/SQM value.
+3. Caches everything to `.location_cache.json` (gitignored) so subsequent and
+   scheduled runs need no network.
+
+Any field can be overridden by writing it directly into `config.json`; an explicit
+value always beats the derived one. Supplying `latitude` + `longitude` skips the
+network entirely. Both `config.json` and `.location_cache.json` are gitignored, so
+your resolved location is never committed.

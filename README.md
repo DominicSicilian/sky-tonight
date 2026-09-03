@@ -37,20 +37,21 @@ location — ordered **most interesting first** by Claude.
    This creates `.venv`, installs deps, downloads the ephemeris, and creates
    `config.json`.
 
-2. **Set your location** — edit `config.json`:
+2. **Set your location** — edit `config.json`. Just your city and state (zip optional):
    ```json
    {
-     "location_name": "New York, NY",
-     "latitude": 40.7128,
-     "longitude": -74.0060,
-     "elevation_m": 10,
-     "timezone": "America/New_York",
-     "min_altitude_deg": 15,
-     "limiting_magnitude": 6.5,
-     "twilight": "astronomical",
-     "email_to": "you@example.com"
+     "city": "Boulder",
+     "state": "CO",
+     "zip": "",
+     "email_to": "you@example.com",
+     "delivery": "connector"
    }
    ```
+   On first run the code geocodes this to latitude/longitude, timezone, and
+   elevation, and estimates your **limiting magnitude** from the area's population
+   (a light-pollution proxy). Results are cached to `.location_cache.json` so later
+   runs work offline. `config.json` and the cache are **gitignored** — your location
+   never leaves your machine.
 
 3. **Try the engine**:
    ```bash
@@ -63,16 +64,27 @@ location — ordered **most interesting first** by Claude.
 
 ## Config reference
 
-| Field | Meaning |
-|-------|---------|
-| `location_name` | Shown in the email subject/body. |
-| `latitude` / `longitude` | Decimal degrees (N/E positive). |
-| `elevation_m` | Site elevation in metres. |
-| `timezone` | IANA name, e.g. `America/New_York`. |
-| `min_altitude_deg` | Ignore objects that never get this high during darkness. |
-| `limiting_magnitude` | Skip deep-sky objects fainter than this (bright stars always kept). |
-| `twilight` | `civil` \| `nautical` \| `astronomical` — how dark counts as "dark". |
-| `email_to` | Where the daily briefing is sent. |
+**Required:** `city`, `state`, `email_to`.
+
+| Field | Required? | Meaning |
+|-------|-----------|---------|
+| `city` / `state` | ✅ | Your location. Geocoded to coordinates automatically. |
+| `zip` | optional | Refines coordinates to your neighborhood (US). |
+| `country` | optional | ISO-2 code, default `US`. |
+| `email_to` | ✅ | Where the daily briefing is sent. |
+| `delivery` | optional | `connector` (default) or `smtp`. See [`COWORK_SETUP.md`](COWORK_SETUP.md). |
+
+**Everything below is auto-derived** — add any of them to `config.json` only if you
+want to override the estimate:
+
+| Field | Auto-derived from | Override when |
+|-------|-------------------|---------------|
+| `latitude` / `longitude` | geocoding city/zip | you want exact coordinates |
+| `timezone` | geocoder (IANA) | rarely needed |
+| `elevation_m` | geocoder | you know your true elevation |
+| `limiting_magnitude` | area population (light-pollution proxy) | you have a real Bortle/SQM reading |
+| `min_altitude_deg` | default `15` | your horizon is more/less obstructed |
+| `twilight` | default `astronomical` | you prefer `civil` or `nautical` darkness |
 
 ## What it tracks (MVP)
 

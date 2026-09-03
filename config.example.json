@@ -1,14 +1,10 @@
 {
-  "location_name": "New York, NY",
-  "latitude": 40.7128,
-  "longitude": -74.0060,
-  "elevation_m": 10,
-  "timezone": "America/New_York",
-  "min_altitude_deg": 15,
-  "limiting_magnitude": 6.5,
-  "twilight": "astronomical",
+  "city": "New York",
+  "state": "NY",
+  "zip": "",
+
   "email_to": "you@example.com",
-  "email_from": "you@gmail.com",
-  "smtp_host": "smtp.gmail.com",
-  "smtp_port": 465
+  "delivery": "connector",
+
+  "_comment": "Only city + state are required. zip is optional (refines coordinates). Everything else below is OPTIONAL and auto-derived if omitted: latitude, longitude, timezone, elevation_m, limiting_magnitude. Add any of them here to override the estimate. For SMTP delivery instead of a connector, set delivery to 'smtp' and add email_from/smtp_host/smtp_port (see COWORK_SETUP.md)."
 }

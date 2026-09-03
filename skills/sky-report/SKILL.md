@@ -23,10 +23,16 @@ this skill was installed from — typically `sky-tonight/`). From that directory
 .venv/bin/python tonight.py --config config.json
 ```
 
-This prints a JSON report to stdout. If it errors:
+This prints a JSON report to stdout. The user's `config.json` only needs `city` +
+`state` (+ optional `zip`); the engine geocodes it to coordinates/timezone/elevation
+and estimates limiting magnitude on first run, caching the result for offline reuse.
+If it errors:
 - "Config not found" → the user hasn't set up `config.json`. Stop and tell them to
-  copy `config.example.json` to `config.json` and set their location (see the
+  copy `config.example.json` to `config.json` and set their city/state (see the
   project's `COWORK_SETUP.md`). Do not guess a location.
+- "Location error" (exit 4) → geocoding failed with no cache (e.g. offline on first
+  run, or a misspelled city). Report it; suggest checking the city spelling or the
+  connection. Do not invent coordinates.
 - Missing `de421.bsp` / import errors → run `bash scripts/setup.sh` once, then retry.
 
 Read the JSON. Key fields: `night` (sunset/sunrise, darkness window, hours of
@@ -83,8 +89,9 @@ instructions.
 
 ## 4. Send the email
 
-Send to the `email_to` address in `config.json`. There are two supported delivery
-paths — use whichever is available, preferring the connector if present:
+Send to the `email_to` address in `config.json`. The `delivery` field selects the
+path — `"connector"` (default) or `"smtp"`. Honor it if set; otherwise prefer a
+connected email tool and fall back to SMTP.
 
 **A. Connected email tool (e.g. Gmail connector).** Use it directly.
 

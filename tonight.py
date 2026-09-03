@@ -18,6 +18,7 @@ from zoneinfo import ZoneInfo
 sys.path.insert(0, str(Path(__file__).resolve().parent / "src"))
 
 from sky_tonight.compute import SiteConfig, compute_night  # noqa: E402
+from sky_tonight.location import LocationError, resolve_location  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent
 
@@ -26,17 +27,28 @@ def main() -> int:
     ap = argparse.ArgumentParser(description="Tonight's visible-sky report (JSON).")
     ap.add_argument("--config", default=str(ROOT / "config.json"))
     ap.add_argument("--date", help="YYYY-MM-DD to simulate a specific night (optional).")
+    ap.add_argument(
+        "--refresh-location",
+        action="store_true",
+        help="Re-run geocoding even if a cached result exists.",
+    )
     args = ap.parse_args()
 
     cfg_path = Path(args.config)
     if not cfg_path.exists():
         sys.stderr.write(
             f"Config not found: {cfg_path}\n"
-            "Copy config.example.json to config.json and set your location.\n"
+            "Copy config.example.json to config.json and set your city/state.\n"
         )
         return 2
 
-    cfg = SiteConfig.from_dict(json.loads(cfg_path.read_text()))
+    user_cfg = json.loads(cfg_path.read_text())
+    try:
+        resolved = resolve_location(user_cfg, refresh=args.refresh_location)
+    except LocationError as e:
+        sys.stderr.write(f"Location error: {e}\n")
+        return 4
+    cfg = SiteConfig.from_dict(resolved)
 
     when = None
     if args.date:

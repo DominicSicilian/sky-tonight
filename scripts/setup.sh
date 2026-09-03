@@ -13,7 +13,7 @@ echo "==> Downloading DE421 ephemeris (~17 MB)"
 
 if [ ! -f config.json ]; then
   cp config.example.json config.json
-  echo "==> Created config.json from the example — EDIT IT with your location."
+  echo "==> Created config.json from the example — EDIT IT: set your city + state (+ optional zip) and email_to."
 fi
 
 echo ""
