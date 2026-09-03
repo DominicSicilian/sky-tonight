@@ -87,6 +87,12 @@ Body (short, scannable; HTML is fine, plain text also fine):
 Keep the whole thing readable in under a minute. No preamble, no restating these
 instructions.
 
+**Email styling (if sending HTML).** Many email clients strip `background-color`, so
+never rely on a dark background for contrast. Use **dark text on a light/white
+background** throughout. In particular the header/title text must be **black
+(`#000000`)** on a light header background — not a light or coloured text on dark.
+Keep all styles inline; no external CSS.
+
 ## 4. Send the email
 
 Send to the `email_to` address in `config.json`. The `delivery` field selects the
