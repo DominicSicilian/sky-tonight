@@ -201,6 +201,7 @@ def resolve_location(cfg: dict, refresh: bool = False) -> dict:
         "limiting_magnitude": lim,
         "twilight": cfg.get("twilight", "astronomical"),
         "email_to": cfg.get("email_to", ""),
+        "weather": cfg.get("weather", True),
         "_derived": {
             "population": resolved.get("population"),
             "from_cache": None,

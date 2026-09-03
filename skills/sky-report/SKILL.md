@@ -78,11 +78,21 @@ Subject: `Sky Tonight — {location}, {weekday Month D}` (e.g. "Sky Tonight — 
 Body (short, scannable; HTML is fine, plain text also fine):
 - One-line summary: hours of darkness, moon phase + illumination %, and the single
   best thing to see tonight.
+- **Weather line** (read the `weather` block; it never changes the object list —
+  it only tells the reader *when* the sky is actually usable):
+  - If `weather.fetched` is false: add a small muted note like "Weather forecast
+    unavailable — check your local forecast." and carry on.
+  - If `weather.viewing_unlikely` is true: lead the blurb with a **bold red**
+    line (e.g. `color:#c0392b;font-weight:700`): "⚠️ Viewing unlikely tonight —
+    {weather.reason}." Still include the object list below (plans change).
+  - Otherwise: state the clear-sky hour ranges from `weather.clear_windows` (fall
+    back to `weather.good_windows` if there are no fully-clear windows), e.g.
+    "Clearest skies 9–11pm; clouds thickening after midnight." Keep it to one line.
 - **Tonight's highlights** — the ranked list (numbered), each: name (type,
   constellation) — why it's notable — best time & where to look.
 - **Also up** — a compact line or two naming the rest by category.
-- A one-line footer: darkness window (`darkness_start`–`darkness_end` local),
-  and "MVP ignores weather — check your local forecast before heading out."
+- A one-line footer: darkness window (`darkness_start`–`darkness_end` local), and
+  "Weather from Open-Meteo; always sanity-check your local sky before heading out."
 
 Keep the whole thing readable in under a minute. No preamble, no restating these
 instructions.

@@ -12,8 +12,10 @@ location — ordered **most interesting first** by Claude.
   writes a friendly, skimmable email.
 - **Runs itself**: a Cowork `/schedule` job fires daily at 8am and emails you.
 
-> MVP scope: no weather. It tells you what's *astronomically* visible; check your
-> local forecast before heading out. Clouds are on the roadmap.
+> It tells you what's *astronomically* visible, and overlays a **live hourly
+> cloud/precip forecast** so you know *when* the sky is actually usable (and warns
+> you in bold red when it's a washout). Always sanity-check your local sky before
+> heading out.
 
 ## How it works
 
@@ -27,6 +29,8 @@ location — ordered **most interesting first** by Claude.
 - `tonight.py` → prints a JSON report for the coming night (see `docs/HOW_IT_WORKS.md`).
 - `skills/sky-report/SKILL.md` → the Cowork skill: run engine → rank on Sonnet → email.
 - A scheduled task runs the skill every morning.
+
+A real briefing, as delivered: [`docs/example_briefing.html`](docs/example_briefing.html).
 
 ## Quick start
 
@@ -73,6 +77,7 @@ location — ordered **most interesting first** by Claude.
 | `country` | optional | ISO-2 code, default `US`. |
 | `email_to` | ✅ | Where the daily briefing is sent. |
 | `delivery` | optional | `connector` (default) or `smtp`. See [`COWORK_SETUP.md`](COWORK_SETUP.md). |
+| `weather` | optional | `true` (default) overlays a live hourly cloud/precip forecast; set `false` to skip that network call. |
 
 **Everything below is auto-derived** — add any of them to `config.json` only if you
 want to override the estimate:
@@ -94,7 +99,6 @@ of ~35 deep-sky showpieces plus ~17 of the brightest stars. The catalog lives in
 
 ## Roadmap
 
-- Weather / cloud-cover integration
 - Meteor showers, comets, and ISS/satellite passes
 - Full Messier + NGC catalog option
 - Per-object finder links (Stellarium / SkySafari)

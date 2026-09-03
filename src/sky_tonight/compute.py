@@ -19,6 +19,7 @@ from skyfield.api import Loader, Star, wgs84
 from skyfield.magnitudelib import planetary_magnitude
 
 from .catalog import PLANETS, FixedObject, load_fixed_objects
+from .weather import fetch_weather
 
 DATA_DIR = Path(__file__).resolve().parents[2] / "data"
 
@@ -40,6 +41,7 @@ class SiteConfig:
     limiting_magnitude: float = 6.5
     twilight: str = "astronomical"
     email_to: str = ""
+    weather: bool = True
 
     @classmethod
     def from_dict(cls, d: dict) -> "SiteConfig":
@@ -53,6 +55,7 @@ class SiteConfig:
             limiting_magnitude=float(d.get("limiting_magnitude", 6.5)),
             twilight=str(d.get("twilight", "astronomical")).lower(),
             email_to=d.get("email_to", ""),
+            weather=bool(d.get("weather", True)),
         )
 
 
@@ -221,6 +224,19 @@ def compute_night(cfg: SiteConfig, when: datetime | None = None) -> dict:
 
     visible_objects = [o for o in objects if o["visible"]]
 
+    # Live weather forecast for the darkness window (additive; never affects the
+    # object list). Fetched fresh each run; degrades gracefully on any failure.
+    if cfg.weather:
+        weather = fetch_weather(
+            cfg.latitude,
+            cfg.longitude,
+            cfg.timezone,
+            darkness_start.astimezone(tz) if darkness_start else None,
+            darkness_end.astimezone(tz) if darkness_end else None,
+        )
+    else:
+        weather = {"fetched": False, "note": "weather disabled in config"}
+
     return {
         "generated_at_utc": (when or datetime.now(ZoneInfo("UTC"))).astimezone(ZoneInfo("UTC")).isoformat(),
         "location": {
@@ -248,6 +264,7 @@ def compute_night(cfg: SiteConfig, when: datetime | None = None) -> dict:
             "twilight_type": cfg.twilight,
         },
         "moon": moon_info,
+        "weather": weather,
         "counts": {
             "evaluated": len(objects),
             "visible": len(visible_objects),
