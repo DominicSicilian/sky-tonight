@@ -171,6 +171,29 @@ def compute_night(cfg: SiteConfig, when: datetime | None = None) -> dict:
         "max_altitude_deg": round(moon_max_alt_dark, 1) if moon_max_alt_dark is not None else None,
     }
 
+    # Live weather forecast for the darkness window (additive; never removes an
+    # object). Fetched fresh each run; degrades gracefully on any failure.
+    if cfg.weather:
+        weather = fetch_weather(
+            cfg.latitude,
+            cfg.longitude,
+            cfg.timezone,
+            darkness_start.astimezone(tz) if darkness_start else None,
+            darkness_end.astimezone(tz) if darkness_end else None,
+        )
+    else:
+        weather = {"fetched": False, "note": "weather disabled in config"}
+
+    # The "viewing windows" the reader is told about: fully-clear hours if any,
+    # otherwise clear+partly. An object is "clouded out" if it is never above the
+    # horizon during one of these hours. Hour labels ("HH:00") are unique within a
+    # single evening→dawn darkness span, so they map samples to forecast hours.
+    viewing_labels: set[str] = set()
+    if weather.get("fetched"):
+        clear_labels = {h["time"] for h in weather["hours"] if h["cat"] == "clear"}
+        good_labels = {h["time"] for h in weather["hours"] if h["cat"] in ("clear", "partly")}
+        viewing_labels = clear_labels or good_labels
+
     objects: list[dict] = []
 
     def summarise(name, obj_id, otype, alt_deg, az_deg, magnitude, constellation, note):
@@ -181,6 +204,25 @@ def compute_night(cfg: SiteConfig, when: datetime | None = None) -> dict:
         visible = max_alt >= cfg.min_altitude_deg
         hours_up = float(((alt >= cfg.min_altitude_deg) & dark_mask).sum()) * STEP_MINUTES / 60.0
         transit_i = int(np.argmax(alt))
+
+        # Weather-aware per-object visibility: is this object above min altitude
+        # during a forecast viewing window? If not, it's clouded out tonight.
+        up_during_clear = None
+        clouded_out = None
+        best_clear_time = None
+        if weather.get("fetched"):
+            above = (alt >= cfg.min_altitude_deg) & dark_mask
+            if viewing_labels:
+                best_clear_alt = -90.0
+                for i in np.nonzero(above)[0]:
+                    if local_times[i].strftime("%H:00") in viewing_labels and alt[i] > best_clear_alt:
+                        best_clear_alt = float(alt[i])
+                        best_clear_time = local_times[i]
+                up_during_clear = best_clear_time is not None
+            else:
+                up_during_clear = False  # no usable sky at all tonight
+            clouded_out = bool(visible and not up_during_clear)
+
         return {
             "id": obj_id,
             "name": name,
@@ -196,6 +238,9 @@ def compute_night(cfg: SiteConfig, when: datetime | None = None) -> dict:
             "rise_local": _fmt_local(_crossings(py_utc, alt, 0.0, rising=True), tz),
             "set_local": _fmt_local(_crossings(py_utc, alt, 0.0, rising=False), tz),
             "hours_above_min_alt": round(hours_up, 1),
+            "up_during_clear": up_during_clear,
+            "clouded_out": clouded_out,
+            "best_clear_time_local": best_clear_time.strftime("%H:%M") if best_clear_time else None,
         }
 
     # Planets.
@@ -223,19 +268,6 @@ def compute_night(cfg: SiteConfig, when: datetime | None = None) -> dict:
         objects.append(rec)
 
     visible_objects = [o for o in objects if o["visible"]]
-
-    # Live weather forecast for the darkness window (additive; never affects the
-    # object list). Fetched fresh each run; degrades gracefully on any failure.
-    if cfg.weather:
-        weather = fetch_weather(
-            cfg.latitude,
-            cfg.longitude,
-            cfg.timezone,
-            darkness_start.astimezone(tz) if darkness_start else None,
-            darkness_end.astimezone(tz) if darkness_end else None,
-        )
-    else:
-        weather = {"fetched": False, "note": "weather disabled in config"}
 
     return {
         "generated_at_utc": (when or datetime.now(ZoneInfo("UTC"))).astimezone(ZoneInfo("UTC")).isoformat(),

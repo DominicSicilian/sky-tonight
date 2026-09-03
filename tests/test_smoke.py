@@ -25,6 +25,7 @@ CFG = SiteConfig.from_dict(
         "longitude": -75.0,
         "elevation_m": 0,
         "timezone": "America/New_York",
+        "weather": False,  # keep tests offline and deterministic
     }
 )
 
@@ -55,3 +56,13 @@ def test_transit_altitude_matches_geometry():
 def test_json_serialisable():
     r = compute_night(CFG)
     json.dumps(r)  # must not raise
+
+
+def test_weather_flags_present_and_null_when_disabled():
+    # weather disabled -> block reports not fetched and per-object flags are null.
+    r = compute_night(CFG)
+    assert r["weather"]["fetched"] is False
+    for o in r["objects"]:
+        assert "up_during_clear" in o and "clouded_out" in o
+        assert o["up_during_clear"] is None
+        assert o["clouded_out"] is None

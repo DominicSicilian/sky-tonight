@@ -69,3 +69,18 @@ Any field can be overridden by writing it directly into `config.json`; an explic
 value always beats the derived one. Supplying `latitude` + `longitude` skips the
 network entirely. Both `config.json` and `.location_cache.json` are gitignored, so
 your resolved location is never committed.
+
+## Weather overlay (live)
+
+When `weather` is enabled (default), each run fetches an hourly cloud-cover /
+precipitation / weather-code forecast for the darkness window from the **Open-Meteo**
+API (`src/sky_tonight/weather.py`). It's purely additive — it never changes which
+objects are astronomically visible.
+
+The engine derives **clear windows** (contiguous hours under ~30% cloud with no
+precip), an overall verdict, and — per object — whether it is above `min_altitude_deg`
+during one of those windows (`up_during_clear`) or only while it's overcast
+(`clouded_out`, with `best_clear_time_local` when it is catchable in the clear). The
+email states the clear hour ranges, flags a full washout in bold red, and tags any
+individual object that is clouded out. On any fetch failure the block reports
+`fetched: false` and the briefing still sends.

@@ -89,7 +89,16 @@ Body (short, scannable; HTML is fine, plain text also fine):
     back to `weather.good_windows` if there are no fully-clear windows), e.g.
     "Clearest skies 9–11pm; clouds thickening after midnight." Keep it to one line.
 - **Tonight's highlights** — the ranked list (numbered), each: name (type,
-  constellation) — why it's notable — best time & where to look.
+  constellation) — why it's notable — best time & where to look. Each object also
+  carries weather flags: `up_during_clear` (it's above the horizon during a forecast
+  clear/usable window — with `best_clear_time_local`) and `clouded_out` (it's only up
+  while the sky is overcast tonight). Rank objects that are **actually observable
+  (`up_during_clear` true) above ones that are `clouded_out`**, and when you feature a
+  clouded-out object, tag it plainly, e.g. "⛅ *clouded out tonight — only up while it's
+  overcast*." When an object is up during a clear window, prefer citing its
+  `best_clear_time_local` as the "when to look." If **every** notable object is clouded
+  out, say so at the top. (When `weather.fetched` is false these flags are null — ignore
+  them and rank purely on the astronomy.)
 - **Also up** — a compact line or two naming the rest by category.
 - A one-line footer: darkness window (`darkness_start`–`darkness_end` local), and
   "Weather from Open-Meteo; always sanity-check your local sky before heading out."
