@@ -83,14 +83,31 @@ instructions.
 
 ## 4. Send the email
 
-Send to the `email_to` address in `config.json` using the user's connected email
-tool (e.g. Gmail). Sending email is a real action:
-- In an **interactive** session, confirm the recipient and show the draft before
-  sending.
+Send to the `email_to` address in `config.json`. There are two supported delivery
+paths — use whichever is available, preferring the connector if present:
+
+**A. Connected email tool (e.g. Gmail connector).** Use it directly.
+
+**B. SMTP, no connector needed.** Write the HTML body to `sky_report_latest.html`
+in the project folder, then run:
+
+```bash
+.venv/bin/python scripts/send_email.py \
+  --subject "Sky Tonight — {location}, {weekday Month D}" \
+  --html sky_report_latest.html
+```
+
+This reads SMTP settings from `config.json` and the app password from the env var
+`SKY_TONIGHT_SMTP_PASSWORD` or `.secrets/smtp_password`. If it exits with code 3
+("No SMTP password found"), delivery isn't configured — see below.
+
+Sending email is a real action:
+- In an **interactive** session, confirm the recipient and show the draft first.
 - In an **unattended scheduled run**, send directly to the configured `email_to`.
-- If **no email tool is connected**, do not fail silently: write the briefing to
-  `sky_report_latest.html` in the project folder and report that email delivery is
-  not configured yet (the user needs to connect Gmail or another email connector).
+- If **neither** path is configured (no connector, and SMTP returns code 3), do not
+  fail silently: leave the briefing in `sky_report_latest.html` and report that email
+  delivery isn't set up yet (connect an email tool, or add a Gmail App Password per
+  `.secrets/README.md`).
 
 ## Notes
 - The engine is offline and deterministic; two runs for the same night/location

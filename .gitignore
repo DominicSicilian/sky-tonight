@@ -12,3 +12,10 @@ __pycache__/
 
 # OS
 .DS_Store
+
+# Local SMTP secret (App Password) — never commit
+.secrets/*
+!.secrets/README.md
+
+# Generated briefing
+sky_report_latest.html

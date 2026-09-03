@@ -58,7 +58,8 @@ location — ordered **most interesting first** by Claude.
    ```
 
 4. **Wire it into Cowork** — see [`COWORK_SETUP.md`](COWORK_SETUP.md): install the
-   skill, connect an email tool (e.g. Gmail), and create the daily 8am schedule.
+   skill, set up email delivery, and create the daily 8am schedule. Email works via
+   a **Gmail connector** *or* plain **SMTP + a Gmail App Password** (no connector).
 
 ## Config reference
 

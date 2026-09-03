@@ -23,15 +23,29 @@ The skill is `skills/sky-report/SKILL.md`. Point Cowork at it one of two ways:
 - **Install as a user skill**: copy the `skills/sky-report/` folder into your Cowork
   skills directory.
 
-## Step 2 — Connect an email tool
+## Step 2 — Set up email delivery (pick one)
 
-The daily briefing is sent through a connected email connector (Gmail is the common
-choice). In Cowork, add the **Gmail** connector (or another email connector) and
-authorize it. Without an email connector, the skill will save the briefing to
-`sky_report_latest.html` instead of emailing it.
+**Option A — Gmail connector (OAuth, no secret on disk).**
+In Cowork, open **Settings → Connectors**, search **Gmail**, click **Connect**, and
+authorize in Google's own sign-in flow. Entering credentials happens there — Claude
+never handles your password.
 
-> Note: entering credentials is something *you* do in the connector's own auth flow —
-> Claude never handles your password.
+**Option B — SMTP with a Gmail App Password (no connector).**
+1. Enable 2-Step Verification on your Google account, then create an **App Password**
+   at https://myaccount.google.com/apppasswords.
+2. Save it locally (gitignored):
+   ```bash
+   echo "abcd efgh ijkl mnop" > .secrets/smtp_password
+   ```
+   (or `export SKY_TONIGHT_SMTP_PASSWORD="abcd efgh ijkl mnop"`).
+3. Make sure `email_from` in `config.json` is your Gmail address. Test it:
+   ```bash
+   ./.venv/bin/python scripts/send_email.py --subject "Sky Tonight test" \
+     --html sky_report_latest.html --dry-run
+   ```
+
+If neither is configured, the skill just writes `sky_report_latest.html` and tells
+you email isn't set up yet — it never fails silently.
 
 ## Step 3 — Create the daily 8am schedule
 
