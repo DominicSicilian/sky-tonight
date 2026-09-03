@@ -1,0 +1,14 @@
+# Local, user-specific config (contains your location + email)
+config.json
+
+# Downloaded ephemeris (fetched by scripts/fetch_ephemeris.py)
+data/*.bsp
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# OS
+.DS_Store

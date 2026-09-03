@@ -1,0 +1,11 @@
+{
+  "location_name": "New York, NY",
+  "latitude": 40.7128,
+  "longitude": -74.0060,
+  "elevation_m": 10,
+  "timezone": "America/New_York",
+  "min_altitude_deg": 15,
+  "limiting_magnitude": 6.5,
+  "twilight": "astronomical",
+  "email_to": "you@example.com"
+}

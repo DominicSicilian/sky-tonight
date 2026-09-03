@@ -1,0 +1,55 @@
+id,name,type,ra_hours,dec_deg,magnitude,constellation,note
+M31,Andromeda Galaxy,galaxy,0.7117,41.27,3.4,Andromeda,Nearest large spiral galaxy; naked-eye from dark sites
+M33,Triangulum Galaxy,galaxy,1.5650,30.66,5.7,Triangulum,Face-on spiral; needs dark skies
+M45,Pleiades,open cluster,3.7833,24.12,1.6,Taurus,Brilliant naked-eye star cluster
+M42,Orion Nebula,nebula,5.5883,-5.39,4.0,Orion,Brightest diffuse nebula; naked-eye
+M1,Crab Nebula,supernova remnant,5.5750,22.02,8.4,Taurus,Remnant of the 1054 AD supernova
+M38,Starfish Cluster,open cluster,5.4733,35.85,7.4,Auriga,Rich open cluster
+M36,Pinwheel Cluster,open cluster,5.6017,34.14,6.3,Auriga,Bright young open cluster
+M37,Auriga Cluster,open cluster,5.8733,32.55,6.2,Auriga,Richest Auriga open cluster
+M35,Gemini Cluster,open cluster,6.1483,24.33,5.3,Gemini,Large naked-eye open cluster
+M44,Beehive Cluster,open cluster,8.6733,19.98,3.7,Cancer,Praesepe; naked-eye cluster
+M81,Bode's Galaxy,galaxy,9.9267,69.07,6.9,Ursa Major,Grand-design spiral
+M82,Cigar Galaxy,galaxy,9.9317,69.68,8.4,Ursa Major,Edge-on starburst galaxy
+M97,Owl Nebula,planetary nebula,11.2467,55.02,9.9,Ursa Major,Planetary nebula
+M104,Sombrero Galaxy,galaxy,12.6667,-11.62,8.0,Virgo,Edge-on galaxy with dust lane
+M51,Whirlpool Galaxy,galaxy,13.4983,47.20,8.4,Canes Venatici,Interacting face-on spiral
+M3,M3 Globular Cluster,globular cluster,13.7033,28.38,6.2,Canes Venatici,Fine globular cluster
+M101,Pinwheel Galaxy,galaxy,14.0533,54.35,7.9,Ursa Major,Large face-on spiral
+M5,M5 Globular Cluster,globular cluster,15.3100,2.08,5.6,Serpens,One of the finest globulars
+M4,M4 Globular Cluster,globular cluster,16.3933,-26.53,5.6,Scorpius,Loose nearby globular near Antares
+M13,Hercules Globular Cluster,globular cluster,16.6950,36.46,5.8,Hercules,Best northern globular; naked-eye
+M6,Butterfly Cluster,open cluster,17.6683,-32.22,4.2,Scorpius,Naked-eye open cluster
+M7,Ptolemy Cluster,open cluster,17.8983,-34.79,3.3,Scorpius,Bright naked-eye cluster
+M8,Lagoon Nebula,nebula,18.0633,-24.38,6.0,Sagittarius,Large naked-eye emission nebula
+M20,Trifid Nebula,nebula,18.0433,-23.03,6.3,Sagittarius,Emission/reflection nebula
+M16,Eagle Nebula,nebula,18.3133,-13.79,6.0,Serpens,Pillars of Creation region
+M17,Swan Nebula,nebula,18.3467,-16.18,6.0,Sagittarius,Bright emission nebula
+M22,Sagittarius Cluster,globular cluster,18.6067,-23.90,5.1,Sagittarius,Bright naked-eye globular
+M57,Ring Nebula,planetary nebula,18.8933,33.03,8.8,Lyra,Iconic planetary nebula
+M11,Wild Duck Cluster,open cluster,18.8517,-6.27,6.3,Scutum,Dense rich open cluster
+M27,Dumbbell Nebula,planetary nebula,19.9933,22.72,7.4,Vulpecula,Bright large planetary nebula
+NGC7000,North America Nebula,nebula,20.9833,44.52,4.0,Cygnus,Large emission nebula near Deneb
+M39,M39 Cluster,open cluster,21.5367,48.43,4.6,Cygnus,Loose bright open cluster
+M15,Pegasus Cluster,globular cluster,21.5000,12.17,6.2,Pegasus,Dense globular cluster
+M2,M2 Globular Cluster,globular cluster,21.5583,-0.82,6.5,Aquarius,Rich globular cluster
+NGC253,Sculptor Galaxy,galaxy,0.7933,-25.29,7.1,Sculptor,Bright edge-on starburst galaxy
+NGC869,Double Cluster,open cluster,2.3330,57.13,3.7,Perseus,Pair of naked-eye open clusters
+M34,M34 Cluster,open cluster,2.7000,42.77,5.5,Perseus,Bright scattered open cluster
+Sirius,Sirius,star,6.7522,-16.72,-1.46,Canis Major,Brightest star in the night sky
+Canopus,Canopus,star,6.3992,-52.70,-0.74,Carina,Second-brightest star (far southern)
+Arcturus,Arcturus,star,14.2611,19.18,-0.05,Bootes,Brightest star in the northern sky
+Vega,Vega,star,18.6156,38.78,0.03,Lyra,Summer Triangle vertex
+Capella,Capella,star,5.2781,45.998,0.08,Auriga,Bright northern winter star
+Rigel,Rigel,star,5.2422,-8.20,0.13,Orion,Blue supergiant in Orion
+Procyon,Procyon,star,7.6550,5.22,0.34,Canis Minor,Winter Triangle vertex
+Betelgeuse,Betelgeuse,star,5.9192,7.41,0.45,Orion,Red supergiant (variable)
+Altair,Altair,star,19.8464,8.87,0.77,Aquila,Summer Triangle vertex
+Aldebaran,Aldebaran,star,4.5989,16.51,0.85,Taurus,Eye of the Bull
+Antares,Antares,star,16.4900,-26.43,1.09,Scorpius,Red supergiant heart of Scorpius
+Spica,Spica,star,13.4200,-11.16,1.04,Virgo,Bright blue star
+Pollux,Pollux,star,7.7550,28.03,1.14,Gemini,Nearest giant star
+Fomalhaut,Fomalhaut,star,22.9600,-29.62,1.16,Piscis Austrinus,Autumn's lone bright star
+Deneb,Deneb,star,20.6900,45.28,1.25,Cygnus,Summer Triangle vertex; distant supergiant
+Regulus,Regulus,star,10.1400,11.97,1.35,Leo,Heart of the Lion
+Polaris,Polaris,star,2.5303,89.26,1.98,Ursa Minor,The North Star
