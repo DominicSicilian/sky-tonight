@@ -237,6 +237,9 @@ def compute_night(cfg: SiteConfig, when: datetime | None = None) -> dict:
         },
         "night": {
             "date_local": start_local.strftime("%Y-%m-%d"),
+            "date_display": start_local.strftime("%A, %B %-d, %Y"),
+            "subject_date": start_local.strftime("%a %b %-d"),
+            "weekday": start_local.strftime("%A"),
             "sunset_local": _fmt_local(sunset, tz),
             "sunrise_local": _fmt_local(sunrise, tz),
             "darkness_start_local": _fmt_local(darkness_start, tz),
