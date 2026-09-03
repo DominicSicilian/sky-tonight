@@ -1,6 +1,6 @@
 # 🔭 Sky Tonight
 
-A tiny, open-source astronomy companion for **Claude Cowork**. Every morning it
+An open-source astronomy companion for **Claude Cowork**. Every morning it
 emails you a briefing of what's worth looking at in *tonight's* sky from your
 location — ordered **most interesting first** by Claude.
 
